@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fedora-mirror-nginx
+  labels:
+    app: fedora-mirror-nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fedora-mirror-nginx
+  template:
+    metadata:
+      labels:
+        app: fedora-mirror-nginx
+    spec:
+      containers:
+      - name: fedora-mirror-nginx
+        image: jsck/mirror
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - mountPath: "/repos/ubuntu"
+            name: fedora-mirror-pd
+    volumes:
+      - name: fedora-mirror-pd
+        persistentVolumeClaim:
+          claimName: fedora-mirror-pv-claim
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fedora-mirror-pv-claim
+spec:
+  accessModes:
+    - ReadOnlyMany
+  storageClassName: ""
+  resources:
+  requests:
+    storage: 1Mi
+
+kind: Service
+metadata:
+  name: fedora-mirror-service
+spec:
+  selector:
+    app: fedora-mirror-service
+  ports:
+    - protocol: TCP
+      port: 80
