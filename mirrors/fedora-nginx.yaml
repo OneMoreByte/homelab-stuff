@@ -16,11 +16,11 @@ spec:
     spec:
       containers:
       - name: fedora-mirror-nginx
-        image: jsck/mirror
+        image: jsckh/mirror
         ports:
         - containerPort: 80
         volumeMounts:
-          - mountPath: "/repos/ubuntu"
+          - mountPath: "/repos/fedora"
             name: fedora-mirror-pd
     volumes:
       - name: fedora-mirror-pd

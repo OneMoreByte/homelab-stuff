@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu-mirror-nginx
+  labels:
+    app: ubuntu-mirror-nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ubuntu-mirror-nginx
+  template:
+    metadata:
+      labels:
+        app: ubuntu-mirror-nginx
+    spec:
+      containers:
+      - name: ubuntu-mirror-nginx
+        image: jsckh/mirror
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - mountPath: "/repos/ubuntu"
+            name: ubuntu-mirror-pd
+            readOnly: true
+      volumes:
+        - name: ubuntu-mirror-pd
+          persistentVolumeClaim:
+            claimName: ubuntu-mirror-pv-claim

@@ -10,3 +10,4 @@ spec:
   nfs:
     server: 10.13.5.3
     path: "/mirrors"
+    readOnly: true
