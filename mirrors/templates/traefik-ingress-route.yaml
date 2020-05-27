@@ -1,0 +1,14 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "mirrors.fullname" . }}-ingress
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`{{ .Values.domainName }}`)
+      kind: Rule
+      services:
+      - port: 80
+        namespace: {{ include "mirrors.fullname" . }}
+        name: {{ include "mirrors.fullname" . }}

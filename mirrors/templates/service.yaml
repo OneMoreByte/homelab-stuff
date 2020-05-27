@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mirrors.fullname" . }}
+  namespace: {{ include "mirrors.fullname" . }}
+  labels:
+    {{- include "mirrors.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "mirrors.selectorLabels" . | nindent 4 }}

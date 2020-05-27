@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name:  {{ include "mirrors.fullname" . }}-pv
+  namespace: {{ include "mirrors.fullname" . }}
+spec:
+  capacity:
+    storage: 6Ti
+  accessModes:
+    - ReadOnlyMany
+  nfs:
+    server: {{ default "nfs.host" .Values.nfs.host  }}
+    path: {{ default "/nfs/mount" .Values.nfs.mountPath }}
+    readOnly: true
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: {{ include "mirrors.fullname" . }}
+  name: {{ include "mirrors.fullname" . }}-pvc
+spec:
+  accessModes:
+    - ReadOnlyMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 1Mi

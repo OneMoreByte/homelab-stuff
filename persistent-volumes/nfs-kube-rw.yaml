@@ -8,5 +8,5 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: 10.13.5.3
+    server: producers.jackhil.de
     path: "/store/nfs"

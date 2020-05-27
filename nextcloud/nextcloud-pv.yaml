@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: kube-nfs-nextcloud-pv
+  namespace: nextcloud
+spec:
+  capacity:
+    storage: 550Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: producers.jackhil.de
+    path: "/store/nfs/nextcloud"
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kube-nfs-nextcloud-pvc
+  namespace: nextcloud
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 500Gi
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-data-nextcloud-redis-master-0
+  namespace: nextcloud
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/redis-data-nextcloud-redis-master-0
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-data-nextcloud-redis-slave-0
+  namespace: nextcloud
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/redis-data-nextcloud-redis-slave-0
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-data-nextcloud-redis-slave-1
+  namespace: nextcloud
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/redis-data-nextcloud-redis-slave-1
